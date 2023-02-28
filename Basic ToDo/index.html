@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Cabin:wght@500&family=Felipa&family=Open+Sans:wght@300&family=Poppins:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item">
+            <div class="sid">
+                <label for="Sid">S No</label>
+                <input type="text" id="Sid" placeholder="Type Number..."class="input-1">
+            </div>
+
+            <div class="Task">
+                <label for="Task">Task</label>
+                <input type="text" id="Task" placeholder="Task Text..." class="input-1">    
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button id="submit-btn">Submit</button>
+            <button id="delete-btn">Delete</button>
+            <button id="list-btn"><a href="list.html" target="_blank">List</a></button>
+        </div>
+
+
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+          
+        const firebaseConfig = {
+        apiKey: "AIzaSyBW6GreKMWJJ7q4OOlcuacJkw6T5-6sHIg",
+        authDomain: "sample-94874.firebaseapp.com",
+        databaseURL: "https://sample-94874-default-rtdb.firebaseio.com",
+        projectId: "sample-94874",
+        storageBucket: "sample-94874.appspot.com",
+        messagingSenderId: "1060913030147",
+        appId: "1:1060913030147:web:3518e39f8e4f04fb811a36"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        import {getDatabase, ref, get, set, child, update, remove} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        const db = getDatabase();
+
+        var sid = document.getElementById("Sid");
+        var task = document.getElementById("Task");
+
+        var insBtn = document.getElementById("submit-btn");
+        var delBtn = document.getElementById("delete-btn");
+        var listBtn = document.getElementById("list-btn");
+
+        //insert data function
+        function insertData()
+        {
+            set(ref(db, "ToDo/" + sid.value), {
+                serialNo: sid.value,
+                TaskName: task.value
+            })
+            .then(() => {
+                alert("Data stored successfully");
+            })
+            .catch((error) => {
+                alert("Unsuccessful, error"+error)
+            })
+        }
+
+        //delete data function
+        function deleteData()
+        {
+            remove(ref(db, "ToDo/" + sid.value))
+            .then(() => {
+                alert("data removed successfully");
+            })
+            .catch((error) => {
+                alert("unsuccessful, error" + error);
+            })
+        }
+
+        //assign event so to btns
+        insBtn.addEventListener('click', insertData);
+        delBtn.addEventListener('click', deleteData);
+        // listBtn.addEventListener('click', insertData);
+    </script>
+    
+</body>
+</html>
